@@ -1,0 +1,34 @@
+def maximize(board, depth, maximizingPlayer):
+    if depth <= 0 or terminal(board) == True:
+        
+        return utility(board)
+    maxaction = tuple()
+    minaction = tuple()
+    if maximizingPlayer:
+        maxEval = -math.inf
+        children = actions(board)
+        #evaluate each child
+        for child in children:
+            eval = maximize(result(board, child), depth-1, False)
+            maxEval = max(maxEval, eval)
+            #if the depth is shallow return the move rather than the eval
+            if depth == maxDepth and eval == maxEval:
+                maxaction = child
+        #if depth is shallow then return action
+        if depth==maxDepth:
+            return maxaction
+        return maxEval
+    else:
+        minEval = math.inf
+        children = actions(board)
+        for child in children:
+            eval = maximize(result(board, child), depth-1, True)
+            minEval = min(minEval, eval)
+                
+            if depth == maxDepth and eval == minEval:
+                minaction = child
+                
+                
+        if depth == maxDepth:
+            return minaction
+        return minEval
